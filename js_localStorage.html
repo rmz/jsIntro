@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang-"en">
+  <head>
+    <meta charset="utf-8">
+    <title>Three Year Plan</title>
+  </head>
+
+  <body>
+    <form id="add-to-plan">
+    	<label>Create a three year plan by listing your goals:</label>
+      <br>
+    	<input type="text" name="plan-item" id="plan-item">
+      <br>
+    	<button type="submit">Add to You Plan</button>
+    </form>
+
+    <ol id="planList"></ol>
+
+    <p style="color: #999;">View Local Storage through browser dev tools.<br />  On Chrome, View > Developer Tools > Application > Storage > Local Storage</p>
+
+    <script>
+    /*variables are data containers. JS is used to traverse the DOM and make
+    changes to elements or in this case gather user input from elements and then make changes.
+    Methods used to traverse the DOM are:
+    getElementById()
+    getElementsByClassName()
+    getElementsByName()
+    getElementsByTagName()
+    querySelector() - only returns first element that matches specified selector
+    querySelectorAll
+    The variables must first be defined to be used later*/
+    //Create variables that are filled with the form data
+    const addToPlan = document.querySelector('#add-to-plan');
+    const planItem = document.querySelector('#plan-item');
+    const planList = document.querySelector('#planList');
+
+    //JavaScript can be executed when an event occurs, for example:
+    /*
+      mouse click
+      page load
+      image loaded
+      mouse hovers over an element
+      input field is changed
+      html form is submitted
+      a key hit
+      The addEventListener() method attaches an event handler to an element
+    */
+    addToPlan.addEventListener('submit', function (event) {
+
+    	// Don't submit the form, js will be used to process and update the page
+    	event.preventDefault();
+
+    	// Ignore it if the wishlist item is empty
+    	if (planItem.value.length < 1) return;
+
+    	// Add item to order list using assignment operator +=
+      //+= adds the value on the right side to variable on left
+    	planList.innerHTML += '<li>' + planItem.value + '</li>';
+
+    	// Clear input
+    	planItem.value = '';
+
+      // Brwosers have local storage, save the list to localStorage
+      localStorage.setItem('planItems', planList.innerHTML);
+
+    }, false);
+
+    /* All browsers have local storage available.  This data
+    may be cleared when users clear their browsing history.
+    To view localStorage on Chrome: View > Developer > Developer Tools
+    go to Application tab and open Local Storage*/
+    // Check for saved wishlist items using local storage
+    // This will not work from a local file, needs to load via HTTP
+    var savedItems = localStorage.getItem('planItems');
+    // If there are any saved items, update our list
+    if (savedItems) {
+      planList.innerHTML = savedItems;
+    }
+    //learn more: https://www.w3schools.com/html/html5_webstorage.asp
+    </script>
+
+  </body>
+</html>
